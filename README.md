@@ -1,4 +1,12 @@
+# Getting started with the Azure Sphere MT3620 Development Kit
 
+## Application Manifest Capabilities by Sensor
+
+
+| Azure Sphere   |  Image  |
+| ---- | ---- |
+| Azure Sphere MT3620 Development Kit | ![](resources/azure-sphere-mt3620-dev-kit.jpg) |
+| Azure Sphere MT3620 Development Kit Shield | ![](resources/seeed-studio-grove-shield-and-sensors.jpg) |
 
 | Sensors  | Socket | Capabilities |
 | :------------- | :------------- | :----------- |
