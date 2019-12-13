@@ -1,7 +1,7 @@
 
 
 | Sensors  | Socket | Capabilities |
-| ------------- | ------------- |----------- |
+| :------------- | :------------- | :----------- |
 | Grove Light Sensor  | Analog | "Gpio": [ 57, 58 ], "Uart": [ "ISU0"] |
 | Grove Rotary Sensor | Analog | "Gpio": [ 57, 58 ], "Uart": [ "ISU0"] |
 | Grove 4 Digit Display | GPIO0 or GPIO4 | "Gpio": [ 0, 1 ] or "Gpio": [ 4, 5 ] |
