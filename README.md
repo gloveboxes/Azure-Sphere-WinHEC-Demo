@@ -28,10 +28,15 @@
 ![](resources/vs-configure-cmakelists.png)
 
 
+## Install Azure Sphere Development Tools and SDK
+
+[Overview of set-up procedures](https://docs.microsoft.com/en-au/azure-sphere/install/overview)
+
 ## Application Manifest Capabilities by Sensor
 
 ## Define Application Capabilities Model
 
+1. Review the [Capabilities by Sensor Type Quick Reference](#capabilities-by-sensor-type-quick-reference)
 1. Open **app_manifest.json**
 2. Add GPIO Pins 57, and 58
 3. Add Uart ISU0
