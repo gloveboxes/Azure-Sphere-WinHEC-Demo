@@ -116,20 +116,9 @@ int main(void)
         return -1;
     }
 
-    // Update app_manifest.json with the Grove Light Sensor required capabilities
-    /*
-    "Capabilities": {
-        "Gpio": [9, 57, 58] ,
-            "Uart" : ["ISU0"] ,
-            "AllowedApplicationConnections" : []
-    }
-    */
-
     // Initialize Grove Shield
     int i2cFd;
     GroveShield_Initialize(&i2cFd, 115200);
-
-    // Initialize Light Sensor
     void* light = GroveLightSensor_Init(i2cFd, 0);
 
     const struct timespec sleepTime = {1, 0};
