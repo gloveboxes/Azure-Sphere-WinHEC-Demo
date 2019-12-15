@@ -38,8 +38,8 @@
 
 1. Review the [Capabilities by Sensor Type Quick Reference](#capabilities-by-sensor-type-quick-reference)
 1. Open **app_manifest.json**
-2. Add GPIO Pins 57, and 58
-3. Add Uart ISU0
+3. Add Uart **ISU0**
+   - Note, access to the I2C SHT31 temperature/humidity sensor via the Grove Shield was built before Azure Sphere supported I2C. Hence calls to the sensor are proxied via the Uart.
 
 ```json
 {
@@ -49,7 +49,7 @@
   "EntryPoint": "/bin/app",
   "CmdArgs": [],
   "Capabilities": {
-    "Gpio": [ 9, 57, 58 ],
+    "Gpio": [ 9 ],
     "Uart": [ "ISU0" ],
     "AllowedApplicationConnections": []
   },
@@ -57,14 +57,13 @@
 }
 ```
 
-## Read Grove Light Sensor
+## Read Grove Temperature/Humidity SHT31
 
 1. Open main.c
 2. add Grove Sensor headers after the _#include <applibs/gpio.h>_ header declaration.
     ```c
     #include "../MT3620_Grove_Shield/MT3620_Grove_Shield_Library/Grove.h"
-    #include "../MT3620_Grove_Shield/MT3620_Grove_Shield_Library/Sensors/GroveLightSensor.h"
-    #include "../MT3620_Grove_Shield/MT3620_Grove_Shield_Library/Sensors/GroveAD7992.h"
+    #include "../MT3620_Grove_Shield/MT3620_Grove_Shield_Library/Sensors/GroveTempHumiSHT31.h"
     ```
 
 ### Initialize the Grove Light Sensor
@@ -73,22 +72,20 @@
 2. in the main method, just before _const struct timespec sleepTime = {1, 0};_
 
     ```c
-    // Initialize Grove Shield
+    // Initialize Grove Shield and SHT31 Sensor
     int i2cFd;
     GroveShield_Initialize(&i2cFd, 115200);
-
-    // Initialize Light Sensor
-    void* light = GroveLightSensor_Init(i2cFd, 0);
+    void* sht31 = GroveTempHumiSHT31_Open(i2cFd);
     ```
 
-### Read Grove Light Sensor Telemetry
+### Read SHT31 Sensor
 
 1. In main.c inside the _while_ loop add
 
     ```c
-    float value = GroveLightSensor_Read(light);
-    value = GroveAD7992_ConvertToMillisVolt(value);
-    Log_Debug("Light value %dmV\n", (uint16_t)value);
+	float temperature = GroveTempHumiSHT31_GetTemperature(sht31);
+	float humidity = GroveTempHumiSHT31_GetHumidity(sht31);
+	Log_Debug("Temperature %.2f, Humidity %.0f \n", temperature, humidity);
     ```
 
 ### Putting it all together
@@ -103,44 +100,56 @@
 #include <applibs/gpio.h>
 
 #include "../MT3620_Grove_Shield/MT3620_Grove_Shield_Library/Grove.h"
-#include "../MT3620_Grove_Shield/MT3620_Grove_Shield_Library/Sensors/GroveLightSensor.h"
-#include "../MT3620_Grove_Shield/MT3620_Grove_Shield_Library/Sensors/GroveAD7992.h"
+#include "../MT3620_Grove_Shield/MT3620_Grove_Shield_Library/Sensors/GroveTempHumiSHT31.h"
+
 
 int main(void)
 {
-    Log_Debug(
-        "\nVisit https://github.com/Azure/azure-sphere-samples for extensible samples to use as a "
-        "starting point for full applications.\n");
+	Log_Debug(
+		"\nVisit https://github.com/Azure/azure-sphere-samples for extensible samples to use as a "
+		"starting point for full applications.\n");
 
-    // Change this GPIO number and the number in app_manifest.json if required by your hardware.
-    int fd = GPIO_OpenAsOutput(9, GPIO_OutputMode_PushPull, GPIO_Value_High);
-    if (fd < 0) {
-        Log_Debug(
-            "Error opening GPIO: %s (%d). Check that app_manifest.json includes the GPIO used.\n",
-            strerror(errno), errno);
-        return -1;
-    }
+	// Change this GPIO number and the number in app_manifest.json if required by your hardware.
+	int fd = GPIO_OpenAsOutput(9, GPIO_OutputMode_PushPull, GPIO_Value_High);
+	if (fd < 0) {
+		Log_Debug(
+			"Error opening GPIO: %s (%d). Check that app_manifest.json includes the GPIO used.\n",
+			strerror(errno), errno);
+		return -1;
+	}
 
-    // Initialize Grove Shield
-    int i2cFd;
-    GroveShield_Initialize(&i2cFd, 115200);
-    void* light = GroveLightSensor_Init(i2cFd, 0);
+	// Initialize Grove Shield
+	int i2cFd;
+	GroveShield_Initialize(&i2cFd, 115200);
+	void* sht31 = GroveTempHumiSHT31_Open(i2cFd);
 
-    const struct timespec sleepTime = {1, 0};
-    while (true) {
+	const struct timespec sleepTime = { 1, 0 };
+	while (true) {
 
-        float value = GroveLightSensor_Read(light);
-        value = GroveAD7992_ConvertToMillisVolt(value);
-        Log_Debug("Light value %dmV\n", (uint16_t)value);
+		float temperature = GroveTempHumiSHT31_GetTemperature(sht31);
+		float humidity = GroveTempHumiSHT31_GetHumidity(sht31);
+		Log_Debug("Temperature %.2f, Humidity %.0f \n", temperature, humidity);
 
-        GPIO_SetValue(fd, GPIO_Value_Low);
-        nanosleep(&sleepTime, NULL);
-        GPIO_SetValue(fd, GPIO_Value_High);
-        nanosleep(&sleepTime, NULL);
-    }
+		GPIO_SetValue(fd, GPIO_Value_Low);
+		nanosleep(&sleepTime, NULL);
+		GPIO_SetValue(fd, GPIO_Value_High);
+		nanosleep(&sleepTime, NULL);
+	}
 }
-
 ```
+
+## Integrating with Azure IoT Central
+
+Review [Set up Azure IoT Central to work with Azure Sphere](https://docs.microsoft.com/en-us/azure-sphere/app-development/setup-iot-central)
+
+In summary:
+
+1. Open an Azure Sphere Developer Command Prompt
+2. Authenticate ```bash azsphere login ```
+3. Download the Certificate Authority (CA) certificate for your Azure Sphere tenant ```bash azsphere tenant download-CA-certificate --output CAcertificate.cer ```
+4. Upload the tenant CA certificate to Azure IoT Central and generate a verification code
+5. Verify the tenant CA certificate
+6. Use the validation certificate to verify the tenant identity
 
 ## Capabilities by Sensor Type Quick Reference
 
