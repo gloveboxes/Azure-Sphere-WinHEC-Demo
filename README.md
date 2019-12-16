@@ -145,8 +145,8 @@ Review [Set up Azure IoT Central to work with Azure Sphere](https://docs.microso
 In summary:
 
 1. Open an Azure Sphere Developer Command Prompt
-2. Authenticate ```bash azsphere login ```
-3. Download the Certificate Authority (CA) certificate for your Azure Sphere tenant ```bash azsphere tenant download-CA-certificate --output CAcertificate.cer ```
+2. Authenticate ``` azsphere login ```
+3. Download the Certificate Authority (CA) certificate for your Azure Sphere tenant ``` azsphere tenant download-CA-certificate --output CAcertificate.cer ```
 4. Upload the tenant CA certificate to Azure IoT Central and generate a verification code
 5. Verify the tenant CA certificate
 6. Use the validation certificate to verify the tenant identity
