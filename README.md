@@ -140,6 +140,9 @@ int main(void)
 
 ## Integrating with Azure IoT Central
 
+The Azure Sphere includes out of the box support for Azure IoT Hub and IoT Central. For this walk through
+I'm using Azure IoT Central for built in charting, analytics, device customization and the ability to "White Label" with my own branding.
+
 Review [Set up Azure IoT Central to work with Azure Sphere](https://docs.microsoft.com/en-us/azure-sphere/app-development/setup-iot-central)
 
 In summary:
