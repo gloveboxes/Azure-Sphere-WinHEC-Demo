@@ -5,8 +5,8 @@
   "EntryPoint": "/bin/app",
   "CmdArgs": [],
   "Capabilities": {
-    "Gpio": [ 10, 57, 58 ],
-    "Uart": [ "ISU0"],
+    "Gpio": [ 9 ],
+    "Uart": [ "ISU0" ],
     "AllowedApplicationConnections": []
   },
   "ApplicationType": "Default"
