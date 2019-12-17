@@ -1,5 +1,15 @@
 # Create a Secure Azure Sphere Application using the MT3620 Grove Shield Sensor Kit
 
+|Author|[Dave Glover](https://developer.microsoft.com/en-us/advocates/dave-glover?WT.mc_id=pycon-blog-dglover), Microsoft Cloud Developer Advocate |
+|:----|:---|
+|Target Platform | Seeed Studio Azure Sphere MT3620 |
+|Developer Platform | Windows 10 or Ubuntu 18.04 |
+|Azure SDK | Azure Sphere SDK 19.11 or better |
+|Developer Tools| [Visual Studio (The free Community Edition or better)](https://visualstudio.microsoft.com/vs/) or [Visual Studio Code (Free OSS)](https://code.visualstudio.com?WT.mc_id=pycon-blog-dglover)|
+|Hardware | [Seeed Studio Grove Shield](https://www.seeedstudio.com/MT3620-Grove-Shield.html), and the [Grove Temperature and Humidity Sensor (SHT31)](https://www.seeedstudio.com/Grove-Temperature-Humidity-Sensor-SHT31.html) |
+|Language| C|
+|Date|As of December, 2019|
+
 ## What is Azure Sphere
 
 Azure Sphere is a secured, high-level application platform with built-in communication and security features for internet-connected devices.
