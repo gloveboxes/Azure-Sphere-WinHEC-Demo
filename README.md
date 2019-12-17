@@ -1,25 +1,47 @@
-# Getting started with the Azure Sphere MT3620 Development Kit
-
-| Azure Sphere   |  Image  |
-| ---- | ---- |
-| Azure Sphere MT3620 Development Kit | ![](resources/azure-sphere-mt3620-dev-kit.jpg) |
-| Azure Sphere MT3620 Development Kit Shield | ![](resources/seeed-studio-grove-shield-and-sensors.jpg) |
-
-## Set up your Development Environment
-
-This walk through assumes Windows and Visual Studio. For now application templates are only available with Visual Studio. However you can clone and open this solution on Ubuntu 18.04 and Visual Studio Code.
-
-Follow the Azure Sphere [Overview of set-up procedures](https://docs.microsoft.com/en-au/azure-sphere/install/overview) guide.
+# Create an Azure Sphere Application using the MT3620 Grove Shield Sensor Kit
 
 ## Hardware Required
 
-This walk through is requires the Seeed Studio Azure Sphere, the Seeed Studio Grove Shield, and the Grove Temperature and Humidity Senor (SHT31). The Grove Temperature Sensor is plugged into one of the I2C connectors.
+This tutorial requires the [Seeed Studio Azure Sphere](https://www.seeedstudio.com/Azure-Sphere-MT3620-Development-Kit-US-Version-p-3052.html), the [Seeed Studio Grove Shield](https://www.seeedstudio.com/MT3620-Grove-Shield.html), and the [Grove Temperature and Humidity Sensor (SHT31)](https://www.seeedstudio.com/Grove-Temperature-Humidity-Sensor-SHT31.html). These parts are available from many online stores including [Seeed Studio](www.seeedstudio.com).
+
+Be sure to plug the Grove Temperature Sensor into one of the I2C connectors on the Grove Shield.
 
 ![Azure Sphere with shield](resources/azure-sphere-shield.png)
 
-## Create new Visual Studio Azure Sphere Project
+## Set up your Development Environment
 
-Start Visual Studio and create a new project.
+This tutorial assumes Windows 10 and [Visual Studio (The free Community Edition or better)](https://visualstudio.microsoft.com/vs/). For now, Azure Sphere templates are only available for Visual Studio. However, you can clone and open this solution on Ubuntu 18.04 and Visual Studio Code.
+
+Follow the Azure Sphere [Overview of set up procedures](https://docs.microsoft.com/en-au/azure-sphere/install/overview) guide.
+
+## Azure Sphere SDK
+
+This tutorial assumes you are using the Azure Sphere SDK 19.11 or better which uses the CMake Build System.
+
+This tutorial uses a fork of the Seeed Studio [Grove Shield Library](https://github.com/Seeed-Studio/MT3620_Grove_Shield) that has been updated to support Azure Sphere SDK 19.11.
+
+## Clone the MT3620 Grove Shield Library
+
+1. Create a folder where you plan to build your Azure Sphere applications.
+2. Clone the MT3620 Grove Shield Library.
+
+	Open a command window and change to the directory where you plan to build your Azure Sphere applications.
+
+	```bash
+	git clone https://github.com/gloveboxes/MT3620_Grove_Shield.git
+	```
+
+## Create a new Visual Studio Azure Sphere Project
+
+Start Visual Studio and create a new project in the same directory you cloned the MT3620 Grove Shield Library.
+
+It is important to create the Visual Studio Project in the same folder you cloned the MT3620 Grove Shield as there are relative links to this library in the application you will create.
+
+```text
+azure-sphere
+	|- MT3620_Grove_Shield
+	|- YourAzureSphereApplication
+```
 
 ![](resources/vs-create-new-project.png)
 
@@ -35,26 +57,26 @@ Name the project and set the save location.
 
 ![](resources/vs-configure-new-project.png)
 
-### Open CMakeLists.txt
+### Open the CMakeLists.txt file
 
 CMakelists.txt defines the build process, the files and locations of libraries and more.
 
 ![](resources/vs-open-cmakelists.png)
 
-### Add Reference to MT3620_Grove_Shield_Library
+### Add a Reference to MT3620_Grove_Shield_Library
 
 Two items need to be added:
 
-1. The source location on the MT3620 Grove Shield library
-2 Add MT3620_Grove_Shield_Library to the target_link_libraries definition. This is equivalent to add reference.
+1. The source location on the MT3620 Grove Shield library. Note, this is the relative path to the Grove Shield library.
+2. Add MT3620_Grove_Shield_Library to the target_link_libraries definition. This is equivalent to adding a reference.
 
 ![](resources/vs-configure-cmakelists.png)
 
 ## Set the Application Capabilities
 
-The app manifest defines what resources will be available to the application. Define the minimum set of privileges required by the application. This is core to one of the aspects of security on the Azure Sphere and also known as the [Principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege).
+The application manifest defines what resources will be available to the application. Define the minimum set of privileges required by the application. This is core to Azure Sphere security and is also known as the [Principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege).
 
-1. Review the [Capabilities by Sensor Type Quick Reference](#capabilities-by-sensor-type-quick-reference)
+1. Review the [Grove Shield Sensor Capabilities Quick Reference](#grove-shield-sensor-capabilities-quick-reference) to understand what capabilities are required for each sensor in the library.
 2. Open **app_manifest.json**
 3. Add Uart **ISU0**
    - Note, access to the I2C SHT31 temperature/humidity sensor via the Grove Shield was built before Azure Sphere supported I2C. Hence calls to the sensor are proxied via the Uart.
@@ -170,23 +192,9 @@ In the **main.c** file, set a breakpoint in the margin of the line that reads th
 
  ![](resources/vs-set-breakpoint.png)
 
-## Integrating with Azure IoT Central
+## Appendix
 
-The Azure Sphere includes out of the box support for Azure IoT Hub and IoT Central. For this walk through
-I'm using Azure IoT Central for built in charting, analytics, device customization and the ability to "White Label" with my own branding.
-
-Review [Set up Azure IoT Central to work with Azure Sphere](https://docs.microsoft.com/en-us/azure-sphere/app-development/setup-iot-central)
-
-In summary:
-
-1. Open an Azure Sphere Developer Command Prompt
-2. Authenticate ``` azsphere login ```
-3. Download the Certificate Authority (CA) certificate for your Azure Sphere tenant ``` azsphere tenant download-CA-certificate --output CAcertificate.cer ```
-4. Upload the tenant CA certificate to Azure IoT Central and generate a verification code
-5. Verify the tenant CA certificate
-6. Use the validation certificate to verify the tenant identity
-
-## Capabilities by Sensor Type Quick Reference
+### Grove Shield Sensor Capabilities Quick Reference
 
 | Sensors  | Socket | Capabilities |
 | :------------- | :------------- | :----------- |
@@ -203,3 +211,16 @@ In summary:
 | LED 4 | Red <br/> Green <br/> Blue | "Gpio": [ 21 ] <br/> "Gpio": [ 22 ] <br/> "Gpio": [ 23 ] |
 
 For more pin definitions see the __mt3620_rdb.h__ in the MT3620_Grove_Shield/MT3620_Grove_Shield_Library folder.
+
+### Azure Sphere Grove Kit
+
+| Azure Sphere   |  Image  |
+| ---- | ---- |
+| [Azure Sphere MT3620 Development Kit](https://www.seeedstudio.com/Azure-Sphere-MT3620-Development-Kit-US-Version-p-3052.html)|
+| [Azure Sphere MT3620 Development Kit Shield](https://www.seeedstudio.com/Grove-Starter-Kit-for-Azure-Sphere-MT3620-Development-Kit.html). <br/> Note, you can also purchase the parts separately. | ![](resources/seeed-studio-grove-shield-and-sensors.jpg) |
+
+### Azure Sphere MT3620 Developer Board Pinmap
+
+The full Azure Sphere MT3620 Board Pinmap can be found on the [Azure Sphere MT3620 Development Kit](https://www.seeedstudio.com/Azure-Sphere-MT3620-Development-Kit-US-Version-p-3052.html) page.
+
+![](resources/mt3620-dev-board-pinmap.png)
