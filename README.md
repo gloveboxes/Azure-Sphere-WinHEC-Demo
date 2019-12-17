@@ -1,4 +1,10 @@
-# Create an Azure Sphere Application using the MT3620 Grove Shield Sensor Kit
+# Create a Secure Azure Sphere Application using the MT3620 Grove Shield Sensor Kit
+
+## What is Azure Sphere
+
+Azure Sphere is a secured, high-level application platform with built-in communication and security features for internet-connected devices.
+
+It comprises a secured, connected, crossover microcontroller unit (MCU), a custom high-level Linux-based operating system (OS), and a cloud-based security service that provides continuous, renewable security.
 
 ## Hardware Required
 
@@ -10,13 +16,13 @@ Be sure to plug the Grove Temperature Sensor into one of the I2C connectors on t
 
 ## Set up your Development Environment
 
-This tutorial assumes Windows 10 and [Visual Studio (The free Community Edition or better)](https://visualstudio.microsoft.com/vs/). For now, Azure Sphere templates are only available for Visual Studio. However, you can clone and open this solution on Ubuntu 18.04 and Visual Studio Code.
+This tutorial assumes Windows 10 and [Visual Studio (The free Community Edition or better)](https://visualstudio.microsoft.com/vs/). For now, Azure Sphere templates are only available for Visual Studio. However, you can clone and open this solution on Windows and Ubuntu 18.04 with [Visual Studio Code](https://code.visualstudio.com/).
 
 Follow the Azure Sphere [Overview of set up procedures](https://docs.microsoft.com/en-au/azure-sphere/install/overview) guide.
 
 ## Azure Sphere SDK
 
-This tutorial assumes you are using the Azure Sphere SDK 19.11 or better which uses the CMake Build System.
+This tutorial assumes you are using the [Azure Sphere SDK 19.11](https://docs.microsoft.com/en-us/azure-sphere/resources/release-notes-1911) or better which uses the CMake Build System.
 
 This tutorial uses a fork of the Seeed Studio [Grove Shield Library](https://github.com/Seeed-Studio/MT3620_Grove_Shield) that has been updated to support Azure Sphere SDK 19.11.
 
@@ -171,7 +177,7 @@ int main(int argc, char* argv[])
 
 ## Deploy the Application to the Azure Sphere
 
-1. Connect the Azure Sphere to computer via USB
+1. Connect the Azure Sphere to your computer via USB
 2. Ensure you have [claimed](https://docs.microsoft.com/en-au/azure-sphere/install/claim-device), [connected](https://docs.microsoft.com/en-au/azure-sphere/install/configure-wifi), and [developer enabled](https://docs.microsoft.com/en-au/azure-sphere/install/qs-blink-application) your Azure Sphere.
 
 3. Select **GDB Debugger (HLCore)** from the **Select Startup** dropdown.
@@ -180,7 +186,9 @@ int main(int argc, char* argv[])
 
 ### View the Debugger Output
 
-Open the Output window to view the output from **Log_Debug** statements. You can do this by using the **Ctrl+Alt+O** keyboard shortcut or click the **Output** tab.
+Open the _Output_ window to view the output from **Log_Debug** statements in _main.c_. 
+
+You can do this by using the Visual Studio **Ctrl+Alt+O** keyboard shortcut or click the **Output** tab found along the bottom/right of Visual Studio.
 
 ![Visual Studio View Output](resources/vs-view-output.png)
 
@@ -191,6 +199,18 @@ Set a debugger breakpoint by clicking in the margin to the left of the line of c
 In the **main.c** file, set a breakpoint in the margin of the line that reads the Grove temperature and pressure sensor **GroveTempHumiSHT31_Read(sht31);**.
 
  ![](resources/vs-set-breakpoint.png)
+
+### Stop the Debugger
+
+**Stop** the debugger by using the Visual Studio **Shift+F5** keyboard shortcut or click the **Stop Debugging** icon.
+
+![](resources/vs-stop-debugger.png)
+
+## Finished 完了 fertig finito ख़त्म होना terminado
+
+Congratulations, you created a secure Internet of Things Azure Sphere application.
+
+![](resources/finished.jpg)
 
 ## Appendix
 
