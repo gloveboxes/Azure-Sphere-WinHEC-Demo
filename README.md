@@ -186,7 +186,7 @@ int main(int argc, char* argv[])
 
 ### View the Debugger Output
 
-Open the _Output_ window to view the output from **Log_Debug** statements in _main.c_. 
+Open the _Output_ window to view the output from **Log_Debug** statements in _main.c_.
 
 You can do this by using the Visual Studio **Ctrl+Alt+O** keyboard shortcut or click the **Output** tab found along the bottom/right of Visual Studio.
 
@@ -196,7 +196,7 @@ You can do this by using the Visual Studio **Ctrl+Alt+O** keyboard shortcut or c
 
 Set a debugger breakpoint by clicking in the margin to the left of the line of code you want the debugger to stop at.
 
-In the **main.c** file, set a breakpoint in the margin of the line that reads the Grove temperature and pressure sensor **GroveTempHumiSHT31_Read(sht31);**.
+In the **main.c** file set a breakpoint in the margin of the line that reads the Grove temperature and pressure sensor **GroveTempHumiSHT31_Read(sht31);**.
 
  ![](resources/vs-set-breakpoint.png)
 
